@@ -11,4 +11,7 @@ html {
   left: 50%;
   transform: translate(-50%, -50%); }
 
+.cat__image {
+  width: 150px; }
+
 /*# sourceMappingURL=styles.css.map */
