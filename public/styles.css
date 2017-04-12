@@ -1,4 +1,14 @@
-body {
-  background: #800000; }
+html {
+  font-family: 'Roboto', sans-serif;
+  box-sizing: border-box; }
+
+*, *:before, *:after {
+  box-sizing: inherit; }
+
+.cat-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); }
 
 /*# sourceMappingURL=styles.css.map */
