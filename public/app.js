@@ -2,11 +2,18 @@ window.onload = function(){
 
   let counter = 0;
   
+  let getCatObj = function(eventAndTargetDetails){
+    let catId = eventAndTargetDetails;
+    let cat = cats[catId]
+
+    return cat
+  }
+
   let increaseCount = function(e){
     if (e.target.nodeName === 'IMG'){
 
-      let catId = e.target.parentElement.dataset.id;
-      let cat = cats[catId]; 
+      let cat = getCatObj(e.target.parentElement.dataset.id)
+
       cat.clickCount = cat.clickCount + 1;
 
       e.target.nextElementSibling.firstElementChild.innerText = ` ${cat.clickCount}`;
@@ -15,9 +22,9 @@ window.onload = function(){
     
   let findCat = function(e){
     if (e.target.nodeName === 'LI'){
-      let catId = e.target.dataset.id;
+      
+      let cat = getCatObj(e.target.dataset.id)
 
-      let cat = cats[catId];
       return showCat(cat)
     }
   }
@@ -48,7 +55,14 @@ window.onload = function(){
     clickCount: 0
   };
 
-  let cats = [cat1, cat2];
+  let cat3 = {
+    id: 2,
+    name: 'Brown Chair', 
+    url: 'https://static1.squarespace.com/static/54e8ba93e4b07c3f655b452e/t/56c2a04520c64707756f4267/1455596221531/',
+    clickCount: 0
+  };
+
+  let cats = [cat1, cat2, cat3];
 
   for (let i=0; i< cats.length; i++){
     let catListItem = ` 
@@ -60,5 +74,4 @@ window.onload = function(){
   document.querySelector('.cat-list').addEventListener('click', findCat)
 
   document.querySelector('.cat-container').addEventListener('click', increaseCount);
-
 }
