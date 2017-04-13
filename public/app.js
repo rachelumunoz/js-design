@@ -12,7 +12,28 @@ window.onload = function(){
       e.target.nextElementSibling.firstElementChild.innerText = ` ${cat.clickCount}`;
     }
   }
-  
+    
+  let findCat = function(e){
+    if (e.target.nodeName === 'LI'){
+      let catId = e.target.dataset.id;
+
+      let cat = cats[catId];
+      return showCat(cat)
+    }
+  }
+
+  let showCat = function(cat){
+    document.querySelector('.cat-container').innerHTML = "";
+
+    let catHTML = ` 
+      <div class="cat" data-id=${cat.id}>
+          <img class="cat__image" src=${cat.url} alt="cute cat"/>
+          <div class="cat__text">${cat.name} Clicks:<span class="cat__text--number"> ${cat.clickCount}</span></div>
+      </div>`
+
+    document.querySelector('.cat-container').innerHTML += catHTML;
+  }
+
   let cat1 = {
     id: 0,
     name: 'Cherry Pie', 
@@ -30,16 +51,14 @@ window.onload = function(){
   let cats = [cat1, cat2];
 
   for (let i=0; i< cats.length; i++){
-    let cat = ` 
-      <div class="cat" data-id=${cats[i].id}>
-          <img class="cat__image" src=${cats[i].url} alt="cute cat"/>
-          <div class="cat__text">${cats[i].name} Clicks:<span class="cat__text--number"> ${cats[i].clickCount}</span></div>
-      </div>`
+    let catListItem = ` 
+      <li data-id=${cats[i].id}> ${cats[i].name}</li>`
 
-    document.querySelector('.cat-container').innerHTML += cat;
-
+    document.querySelector('.cat-list').innerHTML += catListItem;
   }
-  
+
+  document.querySelector('.cat-list').addEventListener('click', findCat)
+
   document.querySelector('.cat-container').addEventListener('click', increaseCount);
-  
+
 }
