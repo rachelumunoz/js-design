@@ -7,6 +7,17 @@ window.onload = function(){
 
         document.querySelector('.cat-list').innerHTML += catListItem;
       }
+    },
+    showCat: function(cat){
+      document.querySelector('.cat-container').innerHTML = "";
+
+      let catHTML = ` 
+        <div class="cat" data-id=${cat.id}>
+            <img class="cat__image" src=${cat.url} alt="cute cat"/>
+            <div class="cat__text">${cat.name} Clicks:<span class="cat__text--number"> ${cat.clickCount}</span></div>
+        </div>`
+
+      document.querySelector('.cat-container').innerHTML += catHTML;
     }
   };
 
@@ -34,54 +45,43 @@ window.onload = function(){
   };
 
   let controller = {
+      getCatObj: function(eventAndTargetDetails){
+        let catId = eventAndTargetDetails;
+        let cat = data.cats[catId];
+
+        return cat;
+      },
+
+      findCat: function(e){
+         if (e.target.nodeName === 'LI'){
+      
+          let cat = controller.getCatObj(e.target.dataset.id);
+
+          return view.showCat(cat);
+        }
+      },
+      increaseCount: function(e){
+        if (e.target.nodeName === 'IMG'){
+
+          let cat = controller.getCatObj(e.target.parentElement.dataset.id);
+
+          cat.clickCount = cat.clickCount + 1;
+
+          e.target.nextElementSibling.firstElementChild.innerText = ` ${cat.clickCount}`;
+        }
+      },
+
+      addEvents: function(){
+        document.querySelector('.cat-list').addEventListener('click', controller.findCat);
+        document.querySelector('.cat-container').addEventListener('click', controller.increaseCount);
+      },
+
       init: function(){
-        view.renderList()
+        view.renderList();
+        controller.addEvents();
       }
   };
   
-  let getCatObj = function(eventAndTargetDetails){
-    let catId = eventAndTargetDetails;
-    let cat = data.cats[catId]
-
-    return cat
-  }
-
-  let increaseCount = function(e){
-    if (e.target.nodeName === 'IMG'){
-
-      let cat = getCatObj(e.target.parentElement.dataset.id);
-
-      cat.clickCount = cat.clickCount + 1;
-
-      e.target.nextElementSibling.firstElementChild.innerText = ` ${cat.clickCount}`;
-    }
-  }
-    
-  let findCat = function(e){
-    if (e.target.nodeName === 'LI'){
-      
-      let cat = getCatObj(e.target.dataset.id);
-
-      return showCat(cat)
-    }
-  }
-
-  let showCat = function(cat){
-    document.querySelector('.cat-container').innerHTML = "";
-
-    let catHTML = ` 
-      <div class="cat" data-id=${cat.id}>
-          <img class="cat__image" src=${cat.url} alt="cute cat"/>
-          <div class="cat__text">${cat.name} Clicks:<span class="cat__text--number"> ${cat.clickCount}</span></div>
-      </div>`
-
-    document.querySelector('.cat-container').innerHTML += catHTML;
-  }
-
-  
-
-  document.querySelector('.cat-list').addEventListener('click', findCat)
-  document.querySelector('.cat-container').addEventListener('click', increaseCount);
 
   controller.init();
 }
